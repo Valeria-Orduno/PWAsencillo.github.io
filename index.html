@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi PWA</title>
+    <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+    <h1>Calcular factorial</h1>
+
+    <label for="numero">Ingresa un número:</label>
+    <input type="number" id="numero" />
+    <button onclick="calcularFactorial()">Calcular Factorial</button>
+    
+    <p id="resultado"></p>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(registration => {
+                    console.log('Service Worker registrado con éxito:', registration);
+                })
+                .catch(error => {
+                    console.log('Error al registrar el Service Worker:', error);
+                });
+        }
+            function calcularFactorial() {
+            const numero = document.getElementById('numero').value;
+            if (numero === "") {
+                alert("Ingresa un número válido.");
+                return;
+            }
+
+            // Llamada a la función para calcular el factorial
+            const factorial = calcularFactorialRecursivo(parseInt(numero));
+
+            // Mostrar el resultado
+            document.getElementById('resultado').innerText = `El factorial de ${numero} es: ${factorial}`;
+        }
+
+        // Función para calcular el factorial de manera recursiva
+        function calcularFactorialRecursivo(n) {
+            if (n === 0 || n === 1) {
+                return 1;
+            } else {
+                return n * calcularFactorialRecursivo(n - 1);
+            }
+        }
+    </script>
+</body>
+</html>
